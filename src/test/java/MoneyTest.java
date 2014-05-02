@@ -29,7 +29,7 @@ public class MoneyTest {
     private static final int VALID_AMOUNT = 10;
 
     private static final Object[] getInvalidAmount() {
-        return new Integer[][]{{-4}, {-1}, {-3}};
+        return new Integer[][]{{-5}, {-1}, {-3}};
     }
 
     @Test(expected = IllegalArgumentException.class)
