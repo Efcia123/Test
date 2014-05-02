@@ -1,7 +1,36 @@
 apply plugin: 'java'
+apply plugin: 'idea'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
 version = '1.0'
+
+defaultTasks = ['clean', 'jar']
+
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest { attributes 'Implementation-Title': 'Test', 'Implementation-Version': version }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+
+    test{
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            srcDir 'src/test/resources'
+        }
+    }
+}
 
 repositories {
     mavenCentral()
@@ -11,8 +40,11 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile 'org.mockito:mockito-all:1.9.5'
     testCompile 'pl.pragmatists:JUnitParams:1.0.2'
+
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'org.apache.commons:commons-collections4:4.0'
     compile 'com.google.guava:guava:10.0.1'
     compile 'org.springframework:spring-test:2.5'
+
+    runtime files(fileTree(dir: 'lib', includes: ['*.jar']))
 }
